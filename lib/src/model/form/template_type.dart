@@ -1,0 +1,4 @@
+enum TemplateType {
+  basic,
+  character,
+}

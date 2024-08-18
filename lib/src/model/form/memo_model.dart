@@ -1,8 +1,48 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:cosnect/src/model/coser_model.dart';
 import 'package:cosnect/src/model/form/survey_model.dart';
+import 'package:cosnect/src/util/uint8_list_converter.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'memo_model.freezed.dart';
+
+part 'memo_model.g.dart';
+
+@freezed
+class MemoModel with _$MemoModel {
+  const factory MemoModel({
+    int? id,
+    int? notepadId,
+    int? coserId,
+    String? label,
+    @Default(CoserModel()) CoserModel coser,
+    bool? isFavorite,
+    String? series,
+    String? character,
+    @Uint8ListConverter() Uint8List? imageBytes,
+    SurveyModel? survey,
+  }) = _MemoModel;
+
+  factory MemoModel.fromJson(Map<String, dynamic> json) => _$MemoModelFromJson(json);
+
+  factory MemoModel.fromDatabase(Map<String, dynamic> json) {
+    return MemoModel(
+      id: json['id'],
+      notepadId: json['notepadId'],
+      coserId: json['coserId'],
+      label: json['label'],
+      isFavorite: json['isFavorite'] == 1,
+      series: json['series'],
+      character: json['character'],
+      imageBytes: json['imageBytes'],
+      survey: json['survey'] != null ? SurveyModel.fromJson(jsonDecode(json['survey'])) : null,
+    );
+  }
+}
+
+/*
 class MemoModel {
   final int? id;
   final int? notepadId;
@@ -11,7 +51,8 @@ class MemoModel {
   final bool? isFavorite;
   final SurveyModel? survey;
 
-  const MemoModel({this.id, this.notepadId, this.label, this.coser, this.isFavorite, this.survey});
+  const MemoModel({this.id, this.notepadI
+  d, this.label, this.coser, this.isFavorite, this.survey});
 
   Map<String, dynamic> toMap() {
     return {
@@ -53,4 +94,4 @@ class MemoModel {
       survey: survey ?? this.survey,
     );
   }
-}
+}*/

@@ -1,3 +1,27 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'survey_model.freezed.dart';
+
+part 'survey_model.g.dart';
+
+@freezed
+class SurveyModel with _$SurveyModel {
+  const factory SurveyModel({
+    String? question,
+    @Default([]) List<String> options,
+    int? selectedIndex,
+  }) = _SurveyModel;
+
+  const SurveyModel._();
+
+  String answer() {
+    return options[selectedIndex ?? 0];
+  }
+
+  factory SurveyModel.fromJson(Map<String, dynamic> json) => _$SurveyModelFromJson(json);
+}
+
+/*
 class SurveyModel {
   final String question;
   final List<String> options;
@@ -38,4 +62,4 @@ class SurveyModel {
   String toString() {
     return 'SurveyModel{question: $question, options: $options, selectedIndex: $selectedIndex}';
   }
-}
+}*/

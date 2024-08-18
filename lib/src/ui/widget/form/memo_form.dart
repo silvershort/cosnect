@@ -1,43 +1,45 @@
+import 'dart:typed_data';
+
 import 'package:cosnect/main.dart';
-import 'package:cosnect/src/model/coser_model.dart';
+import 'package:cosnect/src/model/form/memo_model.dart';
 import 'package:cosnect/src/ui/widget/button/image_upload_button.dart';
 import 'package:cosnect/src/ui/widget/composite/title_under_widget.dart';
 import 'package:cosnect/src/ui/widget/divider/text_divider.dart';
 import 'package:cosnect/src/ui/widget/dropbox/email_dropbox.dart';
-import 'package:cosnect/src/ui/widget/dropbox/sns_dropbox.dart';
+import 'package:cosnect/src/ui/widget/icon/social_icon.dart';
 import 'package:cosnect/src/ui/widget/text/at_mark_text.dart';
 import 'package:cosnect/src/util/extension/context_extension.dart';
+import 'package:cosnect/src/util/extension/string_extension.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:extended_image/extended_image.dart';
 
 class MemoForm extends HookConsumerWidget {
   const MemoForm({
     super.key,
-    this.initialCoser,
+    this.initialMemo,
     this.isUpdate = false,
     required this.onValidate,
     required this.onChanged,
   });
 
-  final CoserModel? initialCoser;
+  final MemoModel? initialMemo;
   final bool isUpdate;
 
   final Function(bool validate) onValidate;
-  final Function(CoserModel coserModel) onChanged;
+  final Function(MemoModel coserModel) onChanged;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final snsController = useTextEditingController(text: initialCoser?.snsID);
-    final emailController = useTextEditingController(text: initialCoser?.email);
-    final seriesController = useTextEditingController(text: initialCoser?.series);
-    final characterController = useTextEditingController(text: initialCoser?.character);
+    final snsController = useTextEditingController(text: initialMemo?.coser.xID);
+    final emailController = useTextEditingController(text: initialMemo?.coser.email?.removeEmailDomain);
+    final seriesController = useTextEditingController(text: initialMemo?.series);
+    final characterController = useTextEditingController(text: initialMemo?.character);
 
-    final coserModel = useState(initialCoser ?? const CoserModel());
-    final emailDomain = useState('gmail.com');
-    final imageBytes = useState(initialCoser?.imageBytes);
+    final memoModel = useState<MemoModel>(initialMemo ?? const MemoModel());
+    final emailDomain = useState<String>('gmail.com');
+    final imageBytes = useState<Uint8List?>(initialMemo?.imageBytes);
 
     String getEmailFullAddress() {
       return '${emailController.text}@${emailDomain.value}';
@@ -45,32 +47,32 @@ class MemoForm extends HookConsumerWidget {
 
     void snsEditingListener() {
       onValidate(snsController.text.isNotEmpty || emailController.text.isNotEmpty);
-      coserModel.value = coserModel.value.copyWith(
-        snsID: snsController.text,
+      memoModel.value = memoModel.value.copyWith.coser(
+        xID: snsController.text,
       );
-      onChanged(coserModel.value);
+      onChanged(memoModel.value);
     }
 
     void emailEditingListener() {
       onValidate(snsController.text.isNotEmpty || emailController.text.isNotEmpty);
-      coserModel.value = coserModel.value.copyWith(
+      memoModel.value = memoModel.value.copyWith.coser(
         email: getEmailFullAddress(),
       );
-      onChanged(coserModel.value);
+      onChanged(memoModel.value);
     }
 
     void seriesEditingListener() {
-      coserModel.value = coserModel.value.copyWith(
+      memoModel.value = memoModel.value.copyWith(
         series: seriesController.text,
       );
-      onChanged(coserModel.value);
+      onChanged(memoModel.value);
     }
 
     void characterEditingListener() {
-      coserModel.value = coserModel.value.copyWith(
+      memoModel.value = memoModel.value.copyWith(
         character: characterController.text,
       );
-      onChanged(coserModel.value);
+      onChanged(memoModel.value);
     }
 
     useEffect(
@@ -79,6 +81,7 @@ class MemoForm extends HookConsumerWidget {
         emailController.addListener(emailEditingListener);
         seriesController.addListener(seriesEditingListener);
         characterController.addListener(characterEditingListener);
+
         if (snsController.text.isNotEmpty || emailController.text.isNotEmpty) {
           onValidate(true);
         }
@@ -95,15 +98,16 @@ class MemoForm extends HookConsumerWidget {
             title: context.localization.sns,
             widget: Row(
               children: [
-                SNSDropbox(
-                  initialSNS: coserModel.value.snsInfo,
-                  onSelected: (accountInfo) {
-                    coserModel.value = coserModel.value.copyWith(
-                      snsInfo: accountInfo,
-                    );
-                    onChanged(coserModel.value);
-                  },
-                ),
+                // SNSDropbox(
+                //   initialSNS: memoModel.value.snsInfo,
+                //   onSelected: (accountInfo) {
+                //     memoModel.value = memoModel.value.copyWith(
+                //       snsInfo: accountInfo,
+                //     );
+                //     onChanged(memoModel.value);
+                //   },
+                // ),
+                SocialIcon.x(),
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextFormField(
@@ -131,10 +135,10 @@ class MemoForm extends HookConsumerWidget {
                 EmailDropbox(
                   onChanged: (accountInfo) {
                     emailDomain.value = accountInfo.name;
-                    coserModel.value = coserModel.value.copyWith(
+                    memoModel.value = memoModel.value.copyWith.coser(
                       email: getEmailFullAddress(),
                     );
-                    onChanged(coserModel.value);
+                    onChanged(memoModel.value);
                   },
                 ),
               ],
@@ -176,11 +180,11 @@ class MemoForm extends HookConsumerWidget {
                   ImageUploadButton(
                     onImageSelected: (file) {
                       imageBytes.value = file.readAsBytesSync();
-                      coserModel.value = coserModel.value.copyWith(
+                      memoModel.value = memoModel.value.copyWith(
                         imageBytes: imageBytes.value,
                       );
                       onChanged(
-                        coserModel.value,
+                        memoModel.value,
                       );
                     },
                   ),

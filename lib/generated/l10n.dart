@@ -110,6 +110,16 @@ class S {
     );
   }
 
+  /// `Press the back button again to exit.`
+  String get back_button_again_msg {
+    return Intl.message(
+      'Press the back button again to exit.',
+      name: 'back_button_again_msg',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `or`
   String get or {
     return Intl.message(

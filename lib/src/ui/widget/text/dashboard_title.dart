@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DashboardTitle extends HookConsumerWidget {
-  const DashboardTitle({super.key, this.onTapAllEvents});
+  const DashboardTitle({super.key, required this.title, this.onTapAllEvents});
 
+  final String title;
   final VoidCallback? onTapAllEvents;
 
   @override
@@ -17,7 +18,7 @@ class DashboardTitle extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '2024 서울 코믹월드 Summer',
+                title,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
                     ),

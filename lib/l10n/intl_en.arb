@@ -6,6 +6,7 @@
   "next": "Next",
   "back": "Back",
   "finish": "Finish",
+  "back_button_again_msg": "Press the back button again to exit.",
   "or": "or",
   "x": "X",
   "sns": "SNS",

@@ -3,7 +3,33 @@ import 'dart:typed_data';
 import 'package:cosnect/src/model/sns_info.dart';
 import 'package:cosnect/src/model/social_icon_type.dart';
 import 'package:cosnect/src/ui/widget/icon/social_icon.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'coser_model.g.dart';
+
+part 'coser_model.freezed.dart';
+
+@freezed
+class CoserModel with _$CoserModel {
+  const factory CoserModel({
+    String? xID,
+    String? email,
+  }) = _CoserModel;
+
+  const CoserModel._();
+
+  String getCoserAddress() {
+    if (xID?.isNotEmpty ?? false) {
+      return xID!;
+    } else {
+      return email ?? '';
+    }
+  }
+
+  factory CoserModel.fromJson(Map<String, dynamic> json) => _$CoserModelFromJson(json);
+}
+
+/*
 class CoserModel {
   final SNSAccountInfo snsInfo; // x 또는 instagram enum 클래스
   final String? snsID;
@@ -79,3 +105,4 @@ class CoserModel {
     return 'CoserModel{snsInfo: $snsInfo, snsID: $snsID, email: $email, series: $series, character: $character, imageBytes: $imageBytes}';
   }
 }
+*/

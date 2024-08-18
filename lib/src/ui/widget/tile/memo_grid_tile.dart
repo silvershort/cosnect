@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cosnect/src/model/coser_model.dart';
 import 'package:cosnect/src/model/form/memo_model.dart';
+import 'package:cosnect/src/model/social_icon_type.dart';
 import 'package:cosnect/src/router/app_router.gr.dart';
 import 'package:cosnect/src/ui/widget/icon/social_icon.dart';
 import 'package:extended_image/extended_image.dart';
@@ -16,11 +17,7 @@ class MemoGridTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CoserModel? coser = memoModel.coser;
-
-    if (coser == null) {
-      return const SizedBox.shrink();
-    }
+    final CoserModel coser = memoModel.coser;
 
     return GestureDetector(
       onTap: () {
@@ -29,9 +26,9 @@ class MemoGridTile extends StatelessWidget {
       behavior: HitTestBehavior.translucent,
       child: Stack(
         children: [
-          coser.imageBytes != null
+          memoModel.imageBytes != null
               ? ExtendedImage.memory(
-                  coser.imageBytes!,
+                  memoModel.imageBytes!,
                   fit: BoxFit.cover,
                   compressionRatio: 0.5,
                 )
@@ -53,13 +50,13 @@ class MemoGridTile extends StatelessWidget {
             child: Row(
               children: [
                 SocialIcon(
-                  socialIconType: coser.socialIconType,
+                  socialIconType: coser.xID != null ? SocialIconType.x : SocialIconType.email,
                   size: 16,
                 ),
                 const SizedBox(width: 5),
                 Expanded(
                   child: Text(
-                    coser.snsID ?? coser.email ?? "",
+                    coser.getCoserAddress(),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(

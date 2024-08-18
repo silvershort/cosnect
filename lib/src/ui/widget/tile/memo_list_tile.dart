@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cosnect/src/model/coser_model.dart';
 import 'package:cosnect/src/model/form/memo_model.dart';
+import 'package:cosnect/src/model/social_icon_type.dart';
 import 'package:cosnect/src/router/app_router.gr.dart';
 import 'package:cosnect/src/ui/widget/icon/social_icon.dart';
 import 'package:cosnect/src/ui/widget/text/row_title_and_content_text.dart';
@@ -19,11 +22,7 @@ class MemoListTile extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final CoserModel? coser = memoModel.coser;
-
-    if (coser == null) {
-      return const SizedBox.shrink();
-    }
+    final CoserModel coser = memoModel.coser;
 
     return GestureDetector(
       onTap: () {
@@ -40,34 +39,40 @@ class MemoListTile extends HookConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      SocialIcon(socialIconType: coser.socialIconType),
+                      SocialIcon(socialIconType: coser.xID?.isNotEmpty ?? false ? SocialIconType.x : SocialIconType.email),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          coser.snsID ?? coser.email ?? "",
+                          coser.getCoserAddress(),
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
                     ],
                   ),
-                  if (coser.series != null || coser.character != null)
-                    const SizedBox(height: 10),
-                  if (coser.series != null)
+                  if ((memoModel.series?.isNotEmpty ?? false) || (memoModel.character?.isNotEmpty ?? false)) const SizedBox(height: 10),
+                  if (memoModel.series?.isNotEmpty ?? false)
                     RowTitleAndContentText(
                       title: context.localization.series,
-                      content: coser.series!,
+                      content: memoModel.series!,
                     ),
-                  if (coser.character != null)
+                  if (memoModel.character?.isNotEmpty ?? false)
                     RowTitleAndContentText(
                       title: context.localization.character,
-                      content: coser.character!,
+                      content: memoModel.character!,
                     ),
+                  const SizedBox(height: 10),
+                  Text(
+                    memoModel.survey?.answer() ?? '',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                  ),
                 ],
               ),
             ),
-            if (coser.imageBytes != null)
+            if (memoModel.imageBytes != null)
               ExtendedImage.memory(
-                coser.imageBytes!,
+                memoModel.imageBytes!,
                 width: 80,
                 height: 80,
                 compressionRatio: 0.2,

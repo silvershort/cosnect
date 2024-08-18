@@ -31,6 +31,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "app_tutorial_msg3": MessageLookupByLibrary.simpleMessage(
             "If you register a two-shot photo with a cosplayer, you can recall the memories of that day in an album format."),
         "back": MessageLookupByLibrary.simpleMessage("Back"),
+        "back_button_again_msg": MessageLookupByLibrary.simpleMessage(
+            "Press the back button again to exit."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "character": MessageLookupByLibrary.simpleMessage("Character"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),

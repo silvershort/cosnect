@@ -80,10 +80,12 @@ class Notepad extends _$Notepad {
   }
 
   Future<void> addMemo(MemoModel memo) async {
+    // 메모를 추가하고 id가 추가된 메모를 받아온다.
+    final addedMemo = await _repository.createMemo(memo);
+
     try {
-      await _repository.readMemo(memo);
       state = state.copyWith(
-        memoList: [...state.memoList, memo],
+        memoList: [...state.memoList, addedMemo],
       );
     } catch (error, stackTrace) {
       talker.error(error.toString(), error, stackTrace);

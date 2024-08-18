@@ -18,7 +18,7 @@ class MemoUpdateScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final coserState = useState<CoserModel>(memoModel.coser!);
+    final memoState = useState<MemoModel>(memoModel);
 
     return GestureDetector(
       onTap: () {
@@ -28,11 +28,10 @@ class MemoUpdateScreen extends HookConsumerWidget {
         appBar: AppBar(),
         body: Center(
           child: MemoForm(
-            initialCoser: memoModel.coser,
+            initialMemo: memoModel,
             isUpdate: true,
-            onChanged: (coserModel) {
-              print("@@@ coser: ${coserModel.toString()}");
-              coserState.value = coserModel;
+            onChanged: (memoModel) {
+              memoState.value = memoModel;
             },
             onValidate: (validate) {},
           ),
@@ -43,13 +42,11 @@ class MemoUpdateScreen extends HookConsumerWidget {
             onTap: () async {
               context.loaderOverlay.show();
               await ref.read(memoListProvider.notifier).updateMemo(
-                    memoModel.copyWith(
-                      coser: coserState.value,
-                    ),
+                    memoState.value,
                   );
               if (context.mounted) {
-               context.loaderOverlay.hide();
-               context.maybePop();
+                context.loaderOverlay.hide();
+                context.maybePop();
               }
             },
             text: context.localization.ok,

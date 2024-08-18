@@ -31,6 +31,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "app_tutorial_msg3": MessageLookupByLibrary.simpleMessage(
             "코스어와 찍은 투샷을 등록해두면 앨범 형태로 그날의 추억을 다시 떠올려볼 수 있습니다."),
         "back": MessageLookupByLibrary.simpleMessage("이전"),
+        "back_button_again_msg":
+            MessageLookupByLibrary.simpleMessage("뒤로가기를 한번 더 누르면 종료됩니다."),
         "cancel": MessageLookupByLibrary.simpleMessage("취소"),
         "character": MessageLookupByLibrary.simpleMessage("캐릭터명"),
         "email": MessageLookupByLibrary.simpleMessage("메일주소"),

@@ -4,6 +4,7 @@ import 'package:cosnect/src/model/form/memo_model.dart';
 import 'package:cosnect/src/model/form/survey_model.dart';
 import 'package:cosnect/src/provider/notepad_list_provider.dart';
 import 'package:cosnect/src/ui/widget/button/step_button.dart';
+import 'package:cosnect/src/ui/widget/dialog/default_dialog.dart';
 import 'package:cosnect/src/ui/widget/form/memo_form.dart';
 import 'package:cosnect/src/ui/widget/form/survey_form.dart';
 import 'package:cosnect/src/ui/widget/text/form_title_text.dart';
@@ -22,7 +23,7 @@ class FormScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final memoModel = useState<MemoModel>(MemoModel());
+    final memoModel = useState<MemoModel>(const MemoModel());
 
     final currentStep = useState<int>(0);
     final pageController = usePageController();
@@ -75,15 +76,13 @@ class FormScreen extends HookConsumerWidget {
                     const SizedBox(height: 30),
                     MemoForm(
                       isUpdate: character,
-                      initialCoser: memoModel.value.coser,
+                      initialMemo: memoModel.value,
                       onValidate: (validate) {
                         memoValidate.value = validate;
                       },
-                      onChanged: (coserModel) {
-                        talker.debug('input: $coserModel');
-                        memoModel.value = memoModel.value.copyWith(
-                          coser: coserModel,
-                        );
+                      onChanged: (newMemoModel) {
+                        talker.debug('input: $newMemoModel');
+                        memoModel.value = newMemoModel;
                       },
                     ),
                   ],
@@ -91,14 +90,14 @@ class FormScreen extends HookConsumerWidget {
               ),
               SurveyForm(
                 surveyModel: SurveyModel(
-                  question: '원하는 사진 보정 스타일을 선택해주세요.',
+                  question: '원하는 인물 보정 스타일을 선택해주세요.',
                   options: [
-                    '색감 보정만',
-                    '색감 보정 + 피부 보정만',
+                    '인물 보정 필요 없음',
+                    '약하게 살짝만 보정',
                     '자연스러운 선에서 자유롭게 보정',
-                    '자연스러운 선에서 자유롭게 보정 (원본도 받기)',
                   ],
                 ),
+                description: '(보정시 원본도 같이 보내드립니다.)',
                 initialIndex: memoModel.value.survey?.selectedIndex,
                 onSelected: (survey) {
                   memoModel.value = memoModel.value.copyWith(
@@ -122,27 +121,20 @@ class FormScreen extends HookConsumerWidget {
                 context.loaderOverlay.show();
 
                 try {
+                  talker.info('Form write complete');
+                  talker.debug('memoModel: ${memoModel.value}');
+
                   await ref.read(notepadProvider.notifier).addMemo(memoModel.value);
                   if (context.mounted) {
                     context.loaderOverlay.hide();
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: Text('작성완료'),
-                          content: Text('촬영해주셔서 감사합니다! 메일주소로 받으실 경우 스팸메일함을 꼭 확인해주세요.'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                context.maybePop();
-                                context.maybePop();
-                              },
-                              child: Text('확인'),
-                            ),
-                          ],
-                        );
-                      },
+                    await showNoticeDialog(
+                      context,
+                      title: '작성 완료',
+                      content: '촬영해주셔서 감사합니다! 메일주소로 받으실 경우 스팸메일함을 꼭 확인해주세요.',
                     );
+                    if (context.mounted) {
+                      context.maybePop();
+                    }
                   }
                 } catch (error, _) {
                   if (context.mounted) {

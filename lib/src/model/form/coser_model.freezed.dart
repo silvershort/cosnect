@@ -20,7 +20,9 @@ CoserModel _$CoserModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CoserModel {
-  String? get xID => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
+  String? get snsId => throw _privateConstructorUsedError;
+  SNSInfo get sns => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +37,7 @@ abstract class $CoserModelCopyWith<$Res> {
           CoserModel value, $Res Function(CoserModel) then) =
       _$CoserModelCopyWithImpl<$Res, CoserModel>;
   @useResult
-  $Res call({String? xID, String? email});
+  $Res call({int id, String? snsId, SNSInfo sns, String? email});
 }
 
 /// @nodoc
@@ -51,14 +53,24 @@ class _$CoserModelCopyWithImpl<$Res, $Val extends CoserModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? xID = freezed,
+    Object? id = null,
+    Object? snsId = freezed,
+    Object? sns = null,
     Object? email = freezed,
   }) {
     return _then(_value.copyWith(
-      xID: freezed == xID
-          ? _value.xID
-          : xID // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      snsId: freezed == snsId
+          ? _value.snsId
+          : snsId // ignore: cast_nullable_to_non_nullable
               as String?,
+      sns: null == sns
+          ? _value.sns
+          : sns // ignore: cast_nullable_to_non_nullable
+              as SNSInfo,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -75,7 +87,7 @@ abstract class _$$CoserModelImplCopyWith<$Res>
       __$$CoserModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? xID, String? email});
+  $Res call({int id, String? snsId, SNSInfo sns, String? email});
 }
 
 /// @nodoc
@@ -89,14 +101,24 @@ class __$$CoserModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? xID = freezed,
+    Object? id = null,
+    Object? snsId = freezed,
+    Object? sns = null,
     Object? email = freezed,
   }) {
     return _then(_$CoserModelImpl(
-      xID: freezed == xID
-          ? _value.xID
-          : xID // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      snsId: freezed == snsId
+          ? _value.snsId
+          : snsId // ignore: cast_nullable_to_non_nullable
               as String?,
+      sns: null == sns
+          ? _value.sns
+          : sns // ignore: cast_nullable_to_non_nullable
+              as SNSInfo,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -108,19 +130,26 @@ class __$$CoserModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CoserModelImpl extends _CoserModel {
-  const _$CoserModelImpl({this.xID, this.email}) : super._();
+  const _$CoserModelImpl(
+      {required this.id, this.snsId, this.sns = SNSInfo.x, this.email})
+      : super._();
 
   factory _$CoserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$CoserModelImplFromJson(json);
 
   @override
-  final String? xID;
+  final int id;
+  @override
+  final String? snsId;
+  @override
+  @JsonKey()
+  final SNSInfo sns;
   @override
   final String? email;
 
   @override
   String toString() {
-    return 'CoserModel(xID: $xID, email: $email)';
+    return 'CoserModel(id: $id, snsId: $snsId, sns: $sns, email: $email)';
   }
 
   @override
@@ -128,13 +157,15 @@ class _$CoserModelImpl extends _CoserModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CoserModelImpl &&
-            (identical(other.xID, xID) || other.xID == xID) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.snsId, snsId) || other.snsId == snsId) &&
+            (identical(other.sns, sns) || other.sns == sns) &&
             (identical(other.email, email) || other.email == email));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, xID, email);
+  int get hashCode => Object.hash(runtimeType, id, snsId, sns, email);
 
   @JsonKey(ignore: true)
   @override
@@ -151,15 +182,22 @@ class _$CoserModelImpl extends _CoserModel {
 }
 
 abstract class _CoserModel extends CoserModel {
-  const factory _CoserModel({final String? xID, final String? email}) =
-      _$CoserModelImpl;
+  const factory _CoserModel(
+      {required final int id,
+      final String? snsId,
+      final SNSInfo sns,
+      final String? email}) = _$CoserModelImpl;
   const _CoserModel._() : super._();
 
   factory _CoserModel.fromJson(Map<String, dynamic> json) =
       _$CoserModelImpl.fromJson;
 
   @override
-  String? get xID;
+  int get id;
+  @override
+  String? get snsId;
+  @override
+  SNSInfo get sns;
   @override
   String? get email;
   @override

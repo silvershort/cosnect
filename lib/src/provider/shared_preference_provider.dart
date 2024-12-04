@@ -23,6 +23,14 @@ class SharedPreferencesUtility {
     await sharedPreferences.setBool(AppKey.tooltip, useTooltip);
   }
 
+  int? getLastNotepadId() {
+    return sharedPreferences.getInt(AppKey.lastNotepad);
+  }
+
+  Future<void> setLastNotepadId(int notepadId) async {
+    await sharedPreferences.setInt(AppKey.lastNotepad, notepadId);
+  }
+
   bool getFirstAppRun() {
     return sharedPreferences.getBool(AppKey.firstAppRun) ?? true;
   }

@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cosnect/src/model/coser_model.dart';
+import 'package:cosnect/src/model/form/coser_model.dart';
 import 'package:cosnect/src/model/form/memo_model.dart';
 import 'package:cosnect/src/model/social_icon_type.dart';
 import 'package:cosnect/src/router/app_router.gr.dart';
@@ -50,7 +50,7 @@ class MemoGridTile extends StatelessWidget {
             child: Row(
               children: [
                 SocialIcon(
-                  socialIconType: coser.xID != null ? SocialIconType.x : SocialIconType.email,
+                  socialIconType: coser.snsId != null ? SocialIconType.x : SocialIconType.email,
                   size: 16,
                 ),
                 const SizedBox(width: 5),

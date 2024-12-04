@@ -1,4 +1,4 @@
-import 'package:cosnect/src/model/coser_model.dart';
+import 'package:cosnect/src/model/form/coser_model.dart';
 import 'package:cosnect/src/model/social_icon_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

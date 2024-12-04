@@ -20,9 +20,8 @@ NotepadModel _$NotepadModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$NotepadModel {
-  int? get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  List<MemoModel> get memoList => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +35,7 @@ abstract class $NotepadModelCopyWith<$Res> {
           NotepadModel value, $Res Function(NotepadModel) then) =
       _$NotepadModelCopyWithImpl<$Res, NotepadModel>;
   @useResult
-  $Res call({int? id, String title, List<MemoModel> memoList});
+  $Res call({int id, String title});
 }
 
 /// @nodoc
@@ -52,23 +51,18 @@ class _$NotepadModelCopyWithImpl<$Res, $Val extends NotepadModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? title = null,
-    Object? memoList = null,
   }) {
     return _then(_value.copyWith(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      memoList: null == memoList
-          ? _value.memoList
-          : memoList // ignore: cast_nullable_to_non_nullable
-              as List<MemoModel>,
     ) as $Val);
   }
 }
@@ -81,7 +75,7 @@ abstract class _$$NotepadModelImplCopyWith<$Res>
       __$$NotepadModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int? id, String title, List<MemoModel> memoList});
+  $Res call({int id, String title});
 }
 
 /// @nodoc
@@ -95,52 +89,38 @@ class __$$NotepadModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? title = null,
-    Object? memoList = null,
   }) {
     return _then(_$NotepadModelImpl(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      memoList: null == memoList
-          ? _value._memoList
-          : memoList // ignore: cast_nullable_to_non_nullable
-              as List<MemoModel>,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$NotepadModelImpl implements _NotepadModel {
-  const _$NotepadModelImpl(
-      {this.id, required this.title, required final List<MemoModel> memoList})
-      : _memoList = memoList;
+class _$NotepadModelImpl extends _NotepadModel {
+  const _$NotepadModelImpl({required this.id, required this.title}) : super._();
 
   factory _$NotepadModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$NotepadModelImplFromJson(json);
 
   @override
-  final int? id;
+  final int id;
   @override
   final String title;
-  final List<MemoModel> _memoList;
-  @override
-  List<MemoModel> get memoList {
-    if (_memoList is EqualUnmodifiableListView) return _memoList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_memoList);
-  }
 
   @override
   String toString() {
-    return 'NotepadModel(id: $id, title: $title, memoList: $memoList)';
+    return 'NotepadModel(id: $id, title: $title)';
   }
 
   @override
@@ -149,14 +129,12 @@ class _$NotepadModelImpl implements _NotepadModel {
         (other.runtimeType == runtimeType &&
             other is _$NotepadModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.title, title) || other.title == title) &&
-            const DeepCollectionEquality().equals(other._memoList, _memoList));
+            (identical(other.title, title) || other.title == title));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, title, const DeepCollectionEquality().hash(_memoList));
+  int get hashCode => Object.hash(runtimeType, id, title);
 
   @JsonKey(ignore: true)
   @override
@@ -172,21 +150,19 @@ class _$NotepadModelImpl implements _NotepadModel {
   }
 }
 
-abstract class _NotepadModel implements NotepadModel {
+abstract class _NotepadModel extends NotepadModel {
   const factory _NotepadModel(
-      {final int? id,
-      required final String title,
-      required final List<MemoModel> memoList}) = _$NotepadModelImpl;
+      {required final int id,
+      required final String title}) = _$NotepadModelImpl;
+  const _NotepadModel._() : super._();
 
   factory _NotepadModel.fromJson(Map<String, dynamic> json) =
       _$NotepadModelImpl.fromJson;
 
   @override
-  int? get id;
+  int get id;
   @override
   String get title;
-  @override
-  List<MemoModel> get memoList;
   @override
   @JsonKey(ignore: true)
   _$$NotepadModelImplCopyWith<_$NotepadModelImpl> get copyWith =>

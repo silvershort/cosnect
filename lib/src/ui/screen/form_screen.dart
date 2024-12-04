@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cosnect/main.dart';
 import 'package:cosnect/src/model/form/memo_model.dart';
 import 'package:cosnect/src/model/form/survey_model.dart';
-import 'package:cosnect/src/provider/notepad_list_provider.dart';
+import 'package:cosnect/src/provider/coser_provider.dart';
+import 'package:cosnect/src/provider/notepad_provider.dart';
 import 'package:cosnect/src/ui/widget/button/step_button.dart';
 import 'package:cosnect/src/ui/widget/dialog/default_dialog.dart';
 import 'package:cosnect/src/ui/widget/form/memo_form.dart';
@@ -23,7 +26,7 @@ class FormScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final memoModel = useState<MemoModel>(const MemoModel());
+    final memoModel = useState<MemoModel?>(null);
 
     final currentStep = useState<int>(0);
     final pageController = usePageController();
@@ -98,9 +101,9 @@ class FormScreen extends HookConsumerWidget {
                   ],
                 ),
                 description: '(보정시 원본도 같이 보내드립니다.)',
-                initialIndex: memoModel.value.survey?.selectedIndex,
+                initialIndex: memoModel.value?.survey?.selectedIndex,
                 onSelected: (survey) {
-                  memoModel.value = memoModel.value.copyWith(
+                  memoModel.value = memoModel.value?.copyWith(
                     survey: survey,
                   );
                 },
@@ -124,7 +127,22 @@ class FormScreen extends HookConsumerWidget {
                   talker.info('Form write complete');
                   talker.debug('memoModel: ${memoModel.value}');
 
-                  await ref.read(notepadProvider.notifier).addMemo(memoModel.value);
+                  // 코스어 정보를 먼저 저장 후 메모를 저장
+                  final coserId = await ref.read(coserProvider.notifier).addOrUpdateCoser(
+                        sns: memoModel.value?.coser.sns.name,
+                        snsId: memoModel.value?.coser.snsId,
+                        email: memoModel.value?.coser.email,
+                      );
+                  talker.info('coserId : $coserId');
+                  final notepadId = ref.read(notepadProvider).currentNote!.id;
+
+                  final memoId = await ref.read(memoListProvider.notifier).addMemo(
+                        memo: memoModel.value!,
+                        coserId: coserId,
+                        notepadId: notepadId,
+                      );
+                  talker.info('memoId : $memoId');
+
                   if (context.mounted) {
                     context.loaderOverlay.hide();
                     await showNoticeDialog(

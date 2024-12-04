@@ -8,13 +8,12 @@ part of 'memo_model.dart';
 
 _$MemoModelImpl _$$MemoModelImplFromJson(Map<String, dynamic> json) =>
     _$MemoModelImpl(
-      id: (json['id'] as num?)?.toInt(),
-      notepadId: (json['notepadId'] as num?)?.toInt(),
-      coserId: (json['coserId'] as num?)?.toInt(),
+      id: (json['id'] as num).toInt(),
+      coser: CoserModel.fromJson(json['coser'] as Map<String, dynamic>),
+      notepad: json['notepad'] == null
+          ? null
+          : NotepadModel.fromJson(json['notepad'] as Map<String, dynamic>),
       label: json['label'] as String?,
-      coser: json['coser'] == null
-          ? const CoserModel()
-          : CoserModel.fromJson(json['coser'] as Map<String, dynamic>),
       isFavorite: json['isFavorite'] as bool?,
       series: json['series'] as String?,
       character: json['character'] as String?,
@@ -28,10 +27,9 @@ _$MemoModelImpl _$$MemoModelImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$MemoModelImplToJson(_$MemoModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'notepadId': instance.notepadId,
-      'coserId': instance.coserId,
-      'label': instance.label,
       'coser': instance.coser,
+      'notepad': instance.notepad,
+      'label': instance.label,
       'isFavorite': instance.isFavorite,
       'series': instance.series,
       'character': instance.character,

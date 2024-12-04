@@ -1,26 +1,27 @@
-import 'dart:convert';
-
-import 'package:cosnect/src/model/form/memo_model.dart';
+import 'package:cosnect/src/repository/memo_database.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'notepad_model.g.dart';
-
 part 'notepad_model.freezed.dart';
+part 'notepad_model.g.dart';
 
 @freezed
 class NotepadModel with _$NotepadModel {
   const factory NotepadModel({
-    int? id,
+    required int id,
     required String title,
-    required List<MemoModel> memoList,
   }) = _NotepadModel;
+
+  const NotepadModel._();
+
+  factory NotepadModel.fromItem(NoteItem item) {
+    return NotepadModel(id: item.id, title: item.title);
+  }
 
   factory NotepadModel.fromJson(Map<String, dynamic> json) => _$NotepadModelFromJson(json);
 
   factory NotepadModel.fromMap(Map<String, dynamic> map) => NotepadModel(
         id: map['id'],
         title: map['title'],
-        memoList: (jsonDecode(map['memoList']) as List).map((memo) => MemoModel.fromJson(memo)).toList(),
       );
 }
 

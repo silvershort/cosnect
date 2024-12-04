@@ -6,12 +6,11 @@ part of 'coser_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$coserHash() => r'b4a4ead6f221e194622ad951728560c915f6fc6c';
+String _$coserHash() => r'0e52b89894e67d59d4822942fb16dd122a1419fe';
 
 /// See also [Coser].
 @ProviderFor(Coser)
-final coserProvider = AutoDisposeAsyncNotifierProvider<Coser,
-    List<Map<String, dynamic>>>.internal(
+final coserProvider = NotifierProvider<Coser, List<CoserModel>>.internal(
   Coser.new,
   name: r'coserProvider',
   debugGetCreateSourceHash:
@@ -20,6 +19,6 @@ final coserProvider = AutoDisposeAsyncNotifierProvider<Coser,
   allTransitiveDependencies: null,
 );
 
-typedef _$Coser = AutoDisposeAsyncNotifier<List<Map<String, dynamic>>>;
+typedef _$Coser = Notifier<List<CoserModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

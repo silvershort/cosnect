@@ -1,4 +1,4 @@
-enum SNSAccountInfo {
+enum SNSInfo {
   x,
   instagram,
 }

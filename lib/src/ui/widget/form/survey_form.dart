@@ -49,7 +49,6 @@ class SurveyForm extends HookConsumerWidget {
             onSelected: (index) {
               final newSurveyModel = surveyModel.copyWith(selectedIndex: index);
               onSelected(newSurveyModel);
-              talker.debug('survey: ${newSurveyModel.toString()}');
               onValidate(index >= 0);
             },
           ),

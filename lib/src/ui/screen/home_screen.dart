@@ -1,13 +1,12 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cosnect/src/model/form/notepad_model.dart';
-import 'package:cosnect/src/provider/notepad_list_provider.dart';
+import 'package:cosnect/src/provider/coser_provider.dart';
+import 'package:cosnect/src/provider/notepad_provider.dart';
 import 'package:cosnect/src/router/app_router.dart';
 import 'package:cosnect/src/ui/widget/app_bar/main_app_bar.dart';
 import 'package:cosnect/src/ui/widget/container/notepad_empty_widget.dart';
 import 'package:cosnect/src/ui/widget/container/notepad_widget.dart';
 import 'package:cosnect/src/ui/widget/dialog/add_notepad_dialog.dart';
 import 'package:cosnect/src/ui/widget/text/dashboard_title.dart';
-import 'package:cosnect/src/util/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -21,7 +20,8 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notepadList = ref.watch(notepadListProvider);
+    final controller = ref.read(coserProvider.notifier);
+    final notepadState = ref.watch(notepadProvider);
     final currentIndex = useState<int>(0);
 
     // 뒤로가기 버튼을 누른 시간을 저장
@@ -54,12 +54,12 @@ class HomeScreen extends HookConsumerWidget {
               const SizedBox(height: 10),
               DashboardTitle(
                 title: '2024 Seoul POPCON',
-                onTapAllEvents: () {},
+                onTapAllEvents: () async {},
               ),
               const SizedBox(height: 40),
-              if (notepadList.isNotEmpty) ...[
+              if (notepadState.noteList.isNotEmpty && notepadState.currentNote != null) ...[
                 NotepadWidget(
-                  notepadModel: notepadList[currentIndex.value],
+                  notepadModel: notepadState.currentNote!,
                 ),
               ] else ...[
                 NotepadEmptyWidget(
@@ -70,8 +70,8 @@ class HomeScreen extends HookConsumerWidget {
                       if (context.mounted) {
                         context.loaderOverlay.show();
                       }
-                      await ref.read(notepadListProvider.notifier).addNotepad(
-                            NotepadModel(title: notepadTitle, memoList: []),
+                      await ref.read(notepadProvider.notifier).addNotepad(
+                            title: notepadTitle,
                           );
                       if (context.mounted) {
                         context.loaderOverlay.hide();

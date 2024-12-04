@@ -20,11 +20,10 @@ MemoModel _$MemoModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MemoModel {
-  int? get id => throw _privateConstructorUsedError;
-  int? get notepadId => throw _privateConstructorUsedError;
-  int? get coserId => throw _privateConstructorUsedError;
-  String? get label => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   CoserModel get coser => throw _privateConstructorUsedError;
+  NotepadModel? get notepad => throw _privateConstructorUsedError;
+  String? get label => throw _privateConstructorUsedError;
   bool? get isFavorite => throw _privateConstructorUsedError;
   String? get series => throw _privateConstructorUsedError;
   String? get character => throw _privateConstructorUsedError;
@@ -44,11 +43,10 @@ abstract class $MemoModelCopyWith<$Res> {
       _$MemoModelCopyWithImpl<$Res, MemoModel>;
   @useResult
   $Res call(
-      {int? id,
-      int? notepadId,
-      int? coserId,
-      String? label,
+      {int id,
       CoserModel coser,
+      NotepadModel? notepad,
+      String? label,
       bool? isFavorite,
       String? series,
       String? character,
@@ -56,6 +54,7 @@ abstract class $MemoModelCopyWith<$Res> {
       SurveyModel? survey});
 
   $CoserModelCopyWith<$Res> get coser;
+  $NotepadModelCopyWith<$Res>? get notepad;
   $SurveyModelCopyWith<$Res>? get survey;
 }
 
@@ -72,11 +71,10 @@ class _$MemoModelCopyWithImpl<$Res, $Val extends MemoModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? notepadId = freezed,
-    Object? coserId = freezed,
-    Object? label = freezed,
+    Object? id = null,
     Object? coser = null,
+    Object? notepad = freezed,
+    Object? label = freezed,
     Object? isFavorite = freezed,
     Object? series = freezed,
     Object? character = freezed,
@@ -84,26 +82,22 @@ class _$MemoModelCopyWithImpl<$Res, $Val extends MemoModel>
     Object? survey = freezed,
   }) {
     return _then(_value.copyWith(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int?,
-      notepadId: freezed == notepadId
-          ? _value.notepadId
-          : notepadId // ignore: cast_nullable_to_non_nullable
-              as int?,
-      coserId: freezed == coserId
-          ? _value.coserId
-          : coserId // ignore: cast_nullable_to_non_nullable
-              as int?,
-      label: freezed == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int,
       coser: null == coser
           ? _value.coser
           : coser // ignore: cast_nullable_to_non_nullable
               as CoserModel,
+      notepad: freezed == notepad
+          ? _value.notepad
+          : notepad // ignore: cast_nullable_to_non_nullable
+              as NotepadModel?,
+      label: freezed == label
+          ? _value.label
+          : label // ignore: cast_nullable_to_non_nullable
+              as String?,
       isFavorite: freezed == isFavorite
           ? _value.isFavorite
           : isFavorite // ignore: cast_nullable_to_non_nullable
@@ -137,6 +131,18 @@ class _$MemoModelCopyWithImpl<$Res, $Val extends MemoModel>
 
   @override
   @pragma('vm:prefer-inline')
+  $NotepadModelCopyWith<$Res>? get notepad {
+    if (_value.notepad == null) {
+      return null;
+    }
+
+    return $NotepadModelCopyWith<$Res>(_value.notepad!, (value) {
+      return _then(_value.copyWith(notepad: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
   $SurveyModelCopyWith<$Res>? get survey {
     if (_value.survey == null) {
       return null;
@@ -157,11 +163,10 @@ abstract class _$$MemoModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int? id,
-      int? notepadId,
-      int? coserId,
-      String? label,
+      {int id,
       CoserModel coser,
+      NotepadModel? notepad,
+      String? label,
       bool? isFavorite,
       String? series,
       String? character,
@@ -170,6 +175,8 @@ abstract class _$$MemoModelImplCopyWith<$Res>
 
   @override
   $CoserModelCopyWith<$Res> get coser;
+  @override
+  $NotepadModelCopyWith<$Res>? get notepad;
   @override
   $SurveyModelCopyWith<$Res>? get survey;
 }
@@ -185,11 +192,10 @@ class __$$MemoModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
-    Object? notepadId = freezed,
-    Object? coserId = freezed,
-    Object? label = freezed,
+    Object? id = null,
     Object? coser = null,
+    Object? notepad = freezed,
+    Object? label = freezed,
     Object? isFavorite = freezed,
     Object? series = freezed,
     Object? character = freezed,
@@ -197,26 +203,22 @@ class __$$MemoModelImplCopyWithImpl<$Res>
     Object? survey = freezed,
   }) {
     return _then(_$MemoModelImpl(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int?,
-      notepadId: freezed == notepadId
-          ? _value.notepadId
-          : notepadId // ignore: cast_nullable_to_non_nullable
-              as int?,
-      coserId: freezed == coserId
-          ? _value.coserId
-          : coserId // ignore: cast_nullable_to_non_nullable
-              as int?,
-      label: freezed == label
-          ? _value.label
-          : label // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int,
       coser: null == coser
           ? _value.coser
           : coser // ignore: cast_nullable_to_non_nullable
               as CoserModel,
+      notepad: freezed == notepad
+          ? _value.notepad
+          : notepad // ignore: cast_nullable_to_non_nullable
+              as NotepadModel?,
+      label: freezed == label
+          ? _value.label
+          : label // ignore: cast_nullable_to_non_nullable
+              as String?,
       isFavorite: freezed == isFavorite
           ? _value.isFavorite
           : isFavorite // ignore: cast_nullable_to_non_nullable
@@ -245,11 +247,10 @@ class __$$MemoModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MemoModelImpl implements _MemoModel {
   const _$MemoModelImpl(
-      {this.id,
-      this.notepadId,
-      this.coserId,
+      {required this.id,
+      required this.coser,
+      this.notepad,
       this.label,
-      this.coser = const CoserModel(),
       this.isFavorite,
       this.series,
       this.character,
@@ -260,16 +261,13 @@ class _$MemoModelImpl implements _MemoModel {
       _$$MemoModelImplFromJson(json);
 
   @override
-  final int? id;
+  final int id;
   @override
-  final int? notepadId;
+  final CoserModel coser;
   @override
-  final int? coserId;
+  final NotepadModel? notepad;
   @override
   final String? label;
-  @override
-  @JsonKey()
-  final CoserModel coser;
   @override
   final bool? isFavorite;
   @override
@@ -284,7 +282,7 @@ class _$MemoModelImpl implements _MemoModel {
 
   @override
   String toString() {
-    return 'MemoModel(id: $id, notepadId: $notepadId, coserId: $coserId, label: $label, coser: $coser, isFavorite: $isFavorite, series: $series, character: $character, imageBytes: $imageBytes, survey: $survey)';
+    return 'MemoModel(id: $id, coser: $coser, notepad: $notepad, label: $label, isFavorite: $isFavorite, series: $series, character: $character, imageBytes: $imageBytes, survey: $survey)';
   }
 
   @override
@@ -293,11 +291,9 @@ class _$MemoModelImpl implements _MemoModel {
         (other.runtimeType == runtimeType &&
             other is _$MemoModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.notepadId, notepadId) ||
-                other.notepadId == notepadId) &&
-            (identical(other.coserId, coserId) || other.coserId == coserId) &&
-            (identical(other.label, label) || other.label == label) &&
             (identical(other.coser, coser) || other.coser == coser) &&
+            (identical(other.notepad, notepad) || other.notepad == notepad) &&
+            (identical(other.label, label) || other.label == label) &&
             (identical(other.isFavorite, isFavorite) ||
                 other.isFavorite == isFavorite) &&
             (identical(other.series, series) || other.series == series) &&
@@ -313,10 +309,9 @@ class _$MemoModelImpl implements _MemoModel {
   int get hashCode => Object.hash(
       runtimeType,
       id,
-      notepadId,
-      coserId,
-      label,
       coser,
+      notepad,
+      label,
       isFavorite,
       series,
       character,
@@ -339,11 +334,10 @@ class _$MemoModelImpl implements _MemoModel {
 
 abstract class _MemoModel implements MemoModel {
   const factory _MemoModel(
-      {final int? id,
-      final int? notepadId,
-      final int? coserId,
+      {required final int id,
+      required final CoserModel coser,
+      final NotepadModel? notepad,
       final String? label,
-      final CoserModel coser,
       final bool? isFavorite,
       final String? series,
       final String? character,
@@ -354,15 +348,13 @@ abstract class _MemoModel implements MemoModel {
       _$MemoModelImpl.fromJson;
 
   @override
-  int? get id;
-  @override
-  int? get notepadId;
-  @override
-  int? get coserId;
-  @override
-  String? get label;
+  int get id;
   @override
   CoserModel get coser;
+  @override
+  NotepadModel? get notepad;
+  @override
+  String? get label;
   @override
   bool? get isFavorite;
   @override

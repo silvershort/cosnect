@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cosnect/src/model/coser_model.dart';
 import 'package:cosnect/src/model/form/memo_model.dart';
-import 'package:cosnect/src/provider/notepad_list_provider.dart';
+import 'package:cosnect/src/provider/notepad_provider.dart';
 import 'package:cosnect/src/ui/widget/button/rectangle_button.dart';
 import 'package:cosnect/src/ui/widget/form/memo_form.dart';
 import 'package:cosnect/src/util/extension/context_extension.dart';

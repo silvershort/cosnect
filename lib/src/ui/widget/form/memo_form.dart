@@ -1,11 +1,14 @@
 import 'dart:typed_data';
 
-import 'package:cosnect/main.dart';
+import 'package:cosnect/src/model/form/coser_model.dart';
 import 'package:cosnect/src/model/form/memo_model.dart';
+import 'package:cosnect/src/model/form/notepad_model.dart';
+import 'package:cosnect/src/provider/coser_provider.dart';
 import 'package:cosnect/src/ui/widget/button/image_upload_button.dart';
 import 'package:cosnect/src/ui/widget/composite/title_under_widget.dart';
 import 'package:cosnect/src/ui/widget/divider/text_divider.dart';
 import 'package:cosnect/src/ui/widget/dropbox/email_dropbox.dart';
+import 'package:cosnect/src/ui/widget/dropbox/sns_dropbox.dart';
 import 'package:cosnect/src/ui/widget/icon/social_icon.dart';
 import 'package:cosnect/src/ui/widget/text/at_mark_text.dart';
 import 'package:cosnect/src/util/extension/context_extension.dart';
@@ -32,12 +35,16 @@ class MemoForm extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final snsController = useTextEditingController(text: initialMemo?.coser.xID);
+    final snsController = useTextEditingController(text: initialMemo?.coser.snsId);
     final emailController = useTextEditingController(text: initialMemo?.coser.email?.removeEmailDomain);
     final seriesController = useTextEditingController(text: initialMemo?.series);
     final characterController = useTextEditingController(text: initialMemo?.character);
 
-    final memoModel = useState<MemoModel>(initialMemo ?? const MemoModel());
+    final memoModel = useState<MemoModel>(initialMemo ??
+        const MemoModel(
+          id: -1,
+          coser: CoserModel(id: -1),
+        ));
     final emailDomain = useState<String>('gmail.com');
     final imageBytes = useState<Uint8List?>(initialMemo?.imageBytes);
 
@@ -48,7 +55,7 @@ class MemoForm extends HookConsumerWidget {
     void snsEditingListener() {
       onValidate(snsController.text.isNotEmpty || emailController.text.isNotEmpty);
       memoModel.value = memoModel.value.copyWith.coser(
-        xID: snsController.text,
+        snsId: snsController.text,
       );
       onChanged(memoModel.value);
     }
@@ -98,16 +105,16 @@ class MemoForm extends HookConsumerWidget {
             title: context.localization.sns,
             widget: Row(
               children: [
-                // SNSDropbox(
-                //   initialSNS: memoModel.value.snsInfo,
-                //   onSelected: (accountInfo) {
-                //     memoModel.value = memoModel.value.copyWith(
-                //       snsInfo: accountInfo,
-                //     );
-                //     onChanged(memoModel.value);
-                //   },
-                // ),
-                SocialIcon.x(),
+                SNSDropbox(
+                  initialSNS: memoModel.value.coser.sns,
+                  onSelected: (accountInfo) {
+                    memoModel.value = memoModel.value.copyWith.coser(
+                      sns: accountInfo,
+                    );
+                    onChanged(memoModel.value);
+                  },
+                ),
+                // SocialIcon.x(),
                 const SizedBox(width: 10),
                 Expanded(
                   child: TextFormField(

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:cosnect/src/model/coser_model.dart';
+import 'package:cosnect/src/model/form/coser_model.dart';
 import 'package:cosnect/src/model/form/memo_model.dart';
 import 'package:cosnect/src/model/social_icon_type.dart';
 import 'package:cosnect/src/router/app_router.gr.dart';
@@ -39,7 +39,7 @@ class MemoListTile extends HookConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      SocialIcon(socialIconType: coser.xID?.isNotEmpty ?? false ? SocialIconType.x : SocialIconType.email),
+                      SocialIcon(socialIconType: coser.snsId?.isNotEmpty ?? false ? SocialIconType.x : SocialIconType.email),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(

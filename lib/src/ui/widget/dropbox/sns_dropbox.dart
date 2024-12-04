@@ -12,21 +12,21 @@ class SNSDropbox extends HookWidget {
     required this.onSelected,
   });
 
-  final SNSAccountInfo? initialSNS;
-  final Function(SNSAccountInfo accountInfo) onSelected;
+  final SNSInfo? initialSNS;
+  final Function(SNSInfo accountInfo) onSelected;
 
   @override
   Widget build(BuildContext context) {
     // id or name 상태정보를 저장하는 변수
-    final accountInfo = useState(initialSNS ?? SNSAccountInfo.x);
+    final accountInfo = useState(initialSNS ?? SNSInfo.x);
 
     // 트위터 계정 정보를 토글하는 위젯
     // 위젯을 탭하면 id와 name을 번갈아가면서 토글
     return DropdownButtonHideUnderline(
-      child: DropdownButton2<SNSAccountInfo>(
+      child: DropdownButton2<SNSInfo>(
         value: accountInfo.value,
         onChanged: (value) {
-          accountInfo.value = value ?? SNSAccountInfo.x;
+          accountInfo.value = value ?? SNSInfo.x;
           onSelected(accountInfo.value);
         },
         buttonStyleData: const ButtonStyleData(
@@ -34,7 +34,7 @@ class SNSDropbox extends HookWidget {
         ),
         items: [
           DropdownMenuItem(
-            value: SNSAccountInfo.x,
+            value: SNSInfo.x,
             alignment: Alignment.center,
             child: SvgPicture.asset(
               'assets/logo/x.svg',
@@ -43,7 +43,7 @@ class SNSDropbox extends HookWidget {
             ),
           ),
           DropdownMenuItem(
-            value: SNSAccountInfo.instagram,
+            value: SNSInfo.instagram,
             alignment: Alignment.center,
             child: SvgPicture.asset(
               'assets/logo/instagram.svg',

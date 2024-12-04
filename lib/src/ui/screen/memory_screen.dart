@@ -1,14 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cosnect/src/model/display_mode.dart';
-import 'package:cosnect/src/provider/notepad_list_provider.dart';
-import 'package:cosnect/src/router/app_router.gr.dart';
-import 'package:cosnect/src/ui/screen/memo_update_screen.dart';
+import 'package:cosnect/src/provider/notepad_provider.dart';
 import 'package:cosnect/src/ui/widget/tile/memo_grid_tile.dart';
 import 'package:cosnect/src/ui/widget/tile/memo_list_tile.dart';
 import 'package:cosnect/src/util/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @RoutePage()

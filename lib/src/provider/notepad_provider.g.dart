@@ -6,7 +6,7 @@ part of 'notepad_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$notepadHash() => r'e842853df5eec5ed777af2126819aa359496b6a2';
+String _$notepadHash() => r'e43370ed82fd7d648abc5f2ed41f8a030b912443';
 
 /// See also [Notepad].
 @ProviderFor(Notepad)

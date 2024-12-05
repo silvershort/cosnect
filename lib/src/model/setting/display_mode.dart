@@ -14,5 +14,15 @@ enum DisplayMode {
     }
   }
 
+  int toggleIndex() {
+    const list = DisplayMode.values;
+
+    if (index + 1 < list.length) {
+      return index + 1;
+    } else {
+      return 0;
+    }
+  }
+
   const DisplayMode();
 }

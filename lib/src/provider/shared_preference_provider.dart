@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:cosnect/src/model/setting/app_setting.dart';
 import 'package:cosnect/src/util/constant/app_key.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,12 +26,18 @@ class SharedPreferencesUtility {
     await sharedPreferences.setBool(AppKey.tooltip, useTooltip);
   }
 
-  int? getLastNotepadId() {
-    return sharedPreferences.getInt(AppKey.lastNotepad);
+  AppSettingData getAppSetting() {
+    final String? appSettingJson = sharedPreferences.getString(AppKey.appSetting);
+
+    if (appSettingJson != null) {
+      return AppSettingData.fromJson(jsonDecode(appSettingJson));
+    } else {
+      return const AppSettingData();
+    }
   }
 
-  Future<void> setLastNotepadId(int notepadId) async {
-    await sharedPreferences.setInt(AppKey.lastNotepad, notepadId);
+  Future<void> setAppSetting(AppSettingData appSetting) async {
+    await sharedPreferences.setString(AppKey.appSetting, jsonEncode(appSetting.toJson()));
   }
 
   bool getFirstAppRun() {

@@ -29,7 +29,7 @@ class Notepad extends _$Notepad {
 
   @override
   NotePadState build() {
-    final int lastId = ref.read(sharedPreferencesProvider).getLastNotepadId() ?? 0;
+    final int lastId = ref.read(sharedPreferencesProvider).getAppSetting().lastNotepadId;
 
     fetchNotepadList().then(
       (value) => state = NotePadState(
@@ -68,7 +68,10 @@ class Notepad extends _$Notepad {
     final notepad = state.noteList.where((element) => element.id == notepadId).firstOrNull;
 
     // 다음에 앱을 켰을때 동일한 위치로 이동시키기 위해 로컬저장소에 저장
-    ref.read(sharedPreferencesProvider).setLastNotepadId(notepadId);
+    final appSetting = ref.read(sharedPreferencesProvider).getAppSetting();
+    ref.read(sharedPreferencesProvider).setAppSetting(appSetting.copyWith(
+      lastNotepadId: notepadId,
+    ));
 
     state = state.copyWith(
       currentNote: notepad,

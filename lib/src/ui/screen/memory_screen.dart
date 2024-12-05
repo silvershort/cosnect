@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cosnect/src/model/display_mode.dart';
+import 'package:cosnect/src/model/setting/display_mode.dart';
+import 'package:cosnect/src/provider/app_setting_provider.dart';
 import 'package:cosnect/src/provider/notepad_provider.dart';
 import 'package:cosnect/src/ui/widget/tile/memo_grid_tile.dart';
 import 'package:cosnect/src/ui/widget/tile/memo_list_tile.dart';
@@ -15,7 +16,7 @@ class MemoryScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // 보기 방식
-    final displayType = useState(DisplayMode.list);
+    final displayType = DisplayMode.values[ref.watch(appSettingProvider.select((value) => value.displayMode))];
 
     final memoList = ref.watch(memoListProvider);
 
@@ -24,15 +25,16 @@ class MemoryScreen extends HookConsumerWidget {
         title: Text(context.localization.memory),
         actions: [
           IconButton(
-            icon: Icon(displayType.value == DisplayMode.list ? Icons.list : Icons.grid_view_rounded),
+            icon: Icon(displayType == DisplayMode.list ? Icons.list : Icons.grid_view_rounded),
             onPressed: () {
-              displayType.value = displayType.value.toggle();
+              final nextIndex = displayType.toggleIndex();
+              ref.read(appSettingProvider.notifier).setDisplayMode(nextIndex);
             },
           ),
         ],
       ),
       body: Center(
-          child: switch (displayType.value) {
+          child: switch (displayType) {
         DisplayMode.grid => GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,

@@ -21,5 +21,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: FormRoute.page, path: RoutePath.form),
     AutoRoute(page: MemoryRoute.page, path: RoutePath.memory),
     AutoRoute(page: MemoUpdateRoute.page, path: RoutePath.memoUpdate),
+    AutoRoute(page: PhotoRoute.page, path: RoutePath.photo),
   ];
 }

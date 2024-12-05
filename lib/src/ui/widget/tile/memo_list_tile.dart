@@ -5,6 +5,7 @@ import 'package:cosnect/src/model/form/coser_model.dart';
 import 'package:cosnect/src/model/form/memo_model.dart';
 import 'package:cosnect/src/model/social_icon_type.dart';
 import 'package:cosnect/src/router/app_router.gr.dart';
+import 'package:cosnect/src/router/route_path.dart';
 import 'package:cosnect/src/ui/widget/icon/social_icon.dart';
 import 'package:cosnect/src/ui/widget/text/row_title_and_content_text.dart';
 import 'package:cosnect/src/util/extension/context_extension.dart';
@@ -39,7 +40,10 @@ class MemoListTile extends HookConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      SocialIcon(socialIconType: coser.snsId?.isNotEmpty ?? false ? SocialIconType.x : SocialIconType.email),
+                      SocialIcon(
+                          socialIconType: coser.snsId?.isNotEmpty ?? false
+                              ? SocialIconType.x
+                              : SocialIconType.email),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
@@ -49,7 +53,9 @@ class MemoListTile extends HookConsumerWidget {
                       ),
                     ],
                   ),
-                  if ((memoModel.series?.isNotEmpty ?? false) || (memoModel.character?.isNotEmpty ?? false)) const SizedBox(height: 10),
+                  if ((memoModel.series?.isNotEmpty ?? false) ||
+                      (memoModel.character?.isNotEmpty ?? false))
+                    const SizedBox(height: 10),
                   if (memoModel.series?.isNotEmpty ?? false)
                     RowTitleAndContentText(
                       title: context.localization.series,
@@ -71,12 +77,19 @@ class MemoListTile extends HookConsumerWidget {
               ),
             ),
             if (memoModel.imageBytes != null)
-              ExtendedImage.memory(
-                memoModel.imageBytes!,
-                width: 80,
-                height: 80,
-                compressionRatio: 0.2,
-                fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () {
+                  context.pushRoute(PhotoRoute(
+                    imageProvider: MemoryImage(memoModel.imageBytes!),
+                  ));
+                },
+                child: ExtendedImage.memory(
+                  memoModel.imageBytes!,
+                  width: 80,
+                  height: 80,
+                  compressionRatio: 0.2,
+                  fit: BoxFit.cover,
+                ),
               ),
           ],
         ),

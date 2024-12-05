@@ -23,6 +23,7 @@
   "memory": "Memory",
   "write": "Write",
   "photo": "Photo",
+  "detail_view": "Detail view",
   "upload_photo": "Upload Photo",
   "re_upload_photo": "Re-upload Photo",
   "information_input_msg": "Please enter the SNS or email address to receive the photo.",

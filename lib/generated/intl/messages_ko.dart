@@ -35,6 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("뒤로가기를 한번 더 누르면 종료됩니다."),
         "cancel": MessageLookupByLibrary.simpleMessage("취소"),
         "character": MessageLookupByLibrary.simpleMessage("캐릭터명"),
+        "detail_view": MessageLookupByLibrary.simpleMessage("상세보기"),
         "email": MessageLookupByLibrary.simpleMessage("메일주소"),
         "event_progress_msg":
             MessageLookupByLibrary.simpleMessage("행사가 진행 중 이예요!"),

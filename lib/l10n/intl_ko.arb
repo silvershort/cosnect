@@ -23,6 +23,7 @@
   "memory": "기록",
   "write": "작성",
   "photo": "사진",
+  "detail_view": "상세보기",
   "upload_photo": "사진 업로드",
   "re_upload_photo": "사진 재업로드",
   "information_input_msg": "사진을 전달받을 SNS나 메일주소를 입력해주세요.",

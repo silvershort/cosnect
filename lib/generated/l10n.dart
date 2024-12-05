@@ -280,6 +280,16 @@ class S {
     );
   }
 
+  /// `Detail view`
+  String get detail_view {
+    return Intl.message(
+      'Detail view',
+      name: 'detail_view',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Upload Photo`
   String get upload_photo {
     return Intl.message(

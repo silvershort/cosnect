@@ -23,6 +23,11 @@ class MemoGridTile extends StatelessWidget {
       onTap: () {
         context.pushRoute(MemoUpdateRoute(memoModel: memoModel));
       },
+      onDoubleTap: () {
+        if (memoModel.imageBytes != null) {
+          context.pushRoute(PhotoRoute(imageProvider: MemoryImage(memoModel.imageBytes!)));
+        }
+      },
       behavior: HitTestBehavior.translucent,
       child: Stack(
         children: [

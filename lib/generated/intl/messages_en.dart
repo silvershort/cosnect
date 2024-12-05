@@ -35,6 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Press the back button again to exit."),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "character": MessageLookupByLibrary.simpleMessage("Character"),
+        "detail_view": MessageLookupByLibrary.simpleMessage("Detail view"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),
         "event_progress_msg":
             MessageLookupByLibrary.simpleMessage("The event is in progress!"),

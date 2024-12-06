@@ -4,8 +4,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cosnect/src/model/form/coser_model.dart';
 import 'package:cosnect/src/model/form/memo_model.dart';
 import 'package:cosnect/src/model/social_icon_type.dart';
+import 'package:cosnect/src/provider/notepad_provider.dart';
 import 'package:cosnect/src/router/app_router.gr.dart';
 import 'package:cosnect/src/router/route_path.dart';
+import 'package:cosnect/src/ui/widget/dialog/default_dialog.dart';
 import 'package:cosnect/src/ui/widget/icon/social_icon.dart';
 import 'package:cosnect/src/ui/widget/text/row_title_and_content_text.dart';
 import 'package:cosnect/src/util/extension/context_extension.dart';
@@ -28,6 +30,16 @@ class MemoListTile extends HookConsumerWidget {
     return GestureDetector(
       onTap: () {
         context.pushRoute(MemoUpdateRoute(memoModel: memoModel));
+      },
+      onLongPress: () {
+        showConfirmDialog(
+          context,
+          title: context.localization.delete,
+          content: context.localization.confirm_msg(context.localization.delete),
+          onConfirm: () {
+            ref.read(memoListProvider.notifier).deleteMemo(memoModel.id);
+          },
+        );
       },
       behavior: HitTestBehavior.translucent,
       child: Container(

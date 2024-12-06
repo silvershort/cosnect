@@ -70,6 +70,16 @@ class S {
     );
   }
 
+  /// `Delete`
+  String get delete {
+    return Intl.message(
+      'Delete',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `OK`
   String get ok {
     return Intl.message(
@@ -77,6 +87,26 @@ class S {
       name: 'ok',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `confirm`
+  String get confirm {
+    return Intl.message(
+      'confirm',
+      name: 'confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to {target} it?`
+  String confirm_msg(Object target) {
+    return Intl.message(
+      'Are you sure you want to $target it?',
+      name: 'confirm_msg',
+      desc: '',
+      args: [target],
     );
   }
 

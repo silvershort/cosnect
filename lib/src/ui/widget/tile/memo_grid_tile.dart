@@ -2,12 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cosnect/src/model/form/coser_model.dart';
 import 'package:cosnect/src/model/form/memo_model.dart';
 import 'package:cosnect/src/model/social_icon_type.dart';
+import 'package:cosnect/src/provider/notepad_provider.dart';
 import 'package:cosnect/src/router/app_router.gr.dart';
+import 'package:cosnect/src/ui/widget/dialog/default_dialog.dart';
 import 'package:cosnect/src/ui/widget/icon/social_icon.dart';
+import 'package:cosnect/src/util/extension/context_extension.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MemoGridTile extends StatelessWidget {
+class MemoGridTile extends ConsumerWidget {
   const MemoGridTile({
     super.key,
     required this.memoModel,
@@ -16,7 +20,7 @@ class MemoGridTile extends StatelessWidget {
   final MemoModel memoModel;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final CoserModel coser = memoModel.coser;
 
     return GestureDetector(
@@ -25,8 +29,19 @@ class MemoGridTile extends StatelessWidget {
       },
       onDoubleTap: () {
         if (memoModel.imageBytes != null) {
-          context.pushRoute(PhotoRoute(imageProvider: MemoryImage(memoModel.imageBytes!)));
+          context.pushRoute(
+              PhotoRoute(imageProvider: MemoryImage(memoModel.imageBytes!)));
         }
+      },
+      onLongPress: () {
+        showConfirmDialog(
+          context,
+          title: context.localization.delete,
+          content: context.localization.confirm_msg(context.localization.delete),
+          onConfirm: () {
+            ref.read(memoListProvider.notifier).deleteMemo(memoModel.id);
+          },
+        );
       },
       behavior: HitTestBehavior.translucent,
       child: Stack(
@@ -55,7 +70,9 @@ class MemoGridTile extends StatelessWidget {
             child: Row(
               children: [
                 SocialIcon(
-                  socialIconType: coser.snsId != null ? SocialIconType.x : SocialIconType.email,
+                  socialIconType: coser.snsId != null
+                      ? SocialIconType.x
+                      : SocialIconType.email,
                   size: 16,
                 ),
                 const SizedBox(width: 5),

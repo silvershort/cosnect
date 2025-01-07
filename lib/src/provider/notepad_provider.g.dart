@@ -20,7 +20,7 @@ final notepadProvider = NotifierProvider<Notepad, NotePadState>.internal(
 );
 
 typedef _$Notepad = Notifier<NotePadState>;
-String _$memoListHash() => r'3a2df86d28927f37e9ef023fd388e71ac64d53c1';
+String _$memoListHash() => r'36822f4cdf2325dc12d9f8911ee5579b59d060be';
 
 /// See also [MemoList].
 @ProviderFor(MemoList)
@@ -36,4 +36,4 @@ final memoListProvider =
 
 typedef _$MemoList = AutoDisposeNotifier<List<MemoModel>>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

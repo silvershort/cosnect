@@ -53,7 +53,7 @@ class HomeScreen extends HookConsumerWidget {
             children: [
               const SizedBox(height: 10),
               DashboardTitle(
-                title: '2024 Seoul POPCON',
+                title: 'AGF KOREA 2024',
                 onTapAllEvents: () async {},
               ),
               const SizedBox(height: 40),

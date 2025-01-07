@@ -14,7 +14,9 @@ _$MemoModelImpl _$$MemoModelImplFromJson(Map<String, dynamic> json) =>
           ? null
           : NotepadModel.fromJson(json['notepad'] as Map<String, dynamic>),
       label: json['label'] as String?,
-      isFavorite: json['isFavorite'] as bool?,
+      isFavorite: json['isFavorite'] as bool? ?? false,
+      isSent: json['isSent'] as bool? ?? false,
+      isReturned: json['isReturned'] as bool? ?? false,
       series: json['series'] as String?,
       character: json['character'] as String?,
       imageBytes:
@@ -31,6 +33,8 @@ Map<String, dynamic> _$$MemoModelImplToJson(_$MemoModelImpl instance) =>
       'notepad': instance.notepad,
       'label': instance.label,
       'isFavorite': instance.isFavorite,
+      'isSent': instance.isSent,
+      'isReturned': instance.isReturned,
       'series': instance.series,
       'character': instance.character,
       'imageBytes': const Uint8ListConverter().toJson(instance.imageBytes),

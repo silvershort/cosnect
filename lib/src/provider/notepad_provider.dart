@@ -115,6 +115,8 @@ class MemoList extends _$MemoList {
         series: e.series,
         character: e.character,
         isFavorite: e.isFavorite,
+        isSent: e.isSent,
+        isReturned: e.isReturned,
         label: e.label,
         imageBytes: e.imageBytes,
         survey: e.survey != null ? SurveyModel.fromJson(jsonDecode(e.survey!)) : null,
@@ -167,6 +169,31 @@ class MemoList extends _$MemoList {
 
     // Provider에 동일한 id를 가진 메모를 찾아 수정해준다.
     state = state.map((e) => e.id == memo.id ? memo : e).toList();
+  }
+
+  /// 사진 전송 여부를 수정해준다.
+  Future<void> updateSent({required int id, required bool isSent}) async {
+    talker.info('updateReturned id : ${id}, is : ${isSent}');
+    await _dao.updateMemo(
+        id: id,
+        companion: MemoItemsCompanion(
+          isSent: drift.Value(isSent),
+        ));
+
+    // Provider에 동일한 id를 가진 메모를 찾아 수정해준다.
+    state = state.map((e) => e.id == id ? e.copyWith(isSent: isSent) : e).toList();
+  }
+
+  /// 리턴 여부를 수정해준다.
+  Future<void> updateReturned({required int id, required bool isReturned}) async {
+    await _dao.updateMemo(
+        id: id,
+        companion: MemoItemsCompanion(
+          isSent: drift.Value(isReturned),
+        ));
+
+    // Provider에 동일한 id를 가진 메모를 찾아 수정해준다.
+    state = state.map((e) => e.id == id ? e.copyWith(isReturned: isReturned) : e).toList();
   }
 
   /// 메모를 삭제한다.

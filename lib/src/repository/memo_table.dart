@@ -29,7 +29,9 @@ class MemoItems extends Table {
 
   TextColumn get label => text().nullable()();
 
-  BoolColumn get isFavorite => boolean().nullable()();
+  BoolColumn get isFavorite => boolean().clientDefault(() => false)();
+  BoolColumn get isSent => boolean().clientDefault(() => false)();
+  BoolColumn get isReturned => boolean().clientDefault(() => false)();
 
   BlobColumn get imageBytes => blob().nullable()();
 

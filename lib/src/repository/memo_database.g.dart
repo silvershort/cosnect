@@ -550,11 +550,31 @@ class $MemoItemsTable extends MemoItems
       const VerificationMeta('isFavorite');
   @override
   late final GeneratedColumn<bool> isFavorite = GeneratedColumn<bool>(
-      'is_favorite', aliasedName, true,
+      'is_favorite', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'CHECK ("is_favorite" IN (0, 1))'));
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_favorite" IN (0, 1))'),
+      clientDefault: () => false);
+  static const VerificationMeta _isSentMeta = const VerificationMeta('isSent');
+  @override
+  late final GeneratedColumn<bool> isSent = GeneratedColumn<bool>(
+      'is_sent', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_sent" IN (0, 1))'),
+      clientDefault: () => false);
+  static const VerificationMeta _isReturnedMeta =
+      const VerificationMeta('isReturned');
+  @override
+  late final GeneratedColumn<bool> isReturned = GeneratedColumn<bool>(
+      'is_returned', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_returned" IN (0, 1))'),
+      clientDefault: () => false);
   static const VerificationMeta _imageBytesMeta =
       const VerificationMeta('imageBytes');
   @override
@@ -584,6 +604,8 @@ class $MemoItemsTable extends MemoItems
         coserId,
         label,
         isFavorite,
+        isSent,
+        isReturned,
         imageBytes,
         series,
         character,
@@ -624,6 +646,16 @@ class $MemoItemsTable extends MemoItems
           isFavorite.isAcceptableOrUnknown(
               data['is_favorite']!, _isFavoriteMeta));
     }
+    if (data.containsKey('is_sent')) {
+      context.handle(_isSentMeta,
+          isSent.isAcceptableOrUnknown(data['is_sent']!, _isSentMeta));
+    }
+    if (data.containsKey('is_returned')) {
+      context.handle(
+          _isReturnedMeta,
+          isReturned.isAcceptableOrUnknown(
+              data['is_returned']!, _isReturnedMeta));
+    }
     if (data.containsKey('image_bytes')) {
       context.handle(
           _imageBytesMeta,
@@ -660,7 +692,11 @@ class $MemoItemsTable extends MemoItems
       label: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}label']),
       isFavorite: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_favorite']),
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_favorite'])!,
+      isSent: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_sent'])!,
+      isReturned: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_returned'])!,
       imageBytes: attachedDatabase.typeMapping
           .read(DriftSqlType.blob, data['${effectivePrefix}image_bytes']),
       series: attachedDatabase.typeMapping
@@ -683,7 +719,9 @@ class MemoItem extends DataClass implements Insertable<MemoItem> {
   final int notepadId;
   final int coserId;
   final String? label;
-  final bool? isFavorite;
+  final bool isFavorite;
+  final bool isSent;
+  final bool isReturned;
   final Uint8List? imageBytes;
   final String? series;
   final String? character;
@@ -693,7 +731,9 @@ class MemoItem extends DataClass implements Insertable<MemoItem> {
       required this.notepadId,
       required this.coserId,
       this.label,
-      this.isFavorite,
+      required this.isFavorite,
+      required this.isSent,
+      required this.isReturned,
       this.imageBytes,
       this.series,
       this.character,
@@ -707,9 +747,9 @@ class MemoItem extends DataClass implements Insertable<MemoItem> {
     if (!nullToAbsent || label != null) {
       map['label'] = Variable<String>(label);
     }
-    if (!nullToAbsent || isFavorite != null) {
-      map['is_favorite'] = Variable<bool>(isFavorite);
-    }
+    map['is_favorite'] = Variable<bool>(isFavorite);
+    map['is_sent'] = Variable<bool>(isSent);
+    map['is_returned'] = Variable<bool>(isReturned);
     if (!nullToAbsent || imageBytes != null) {
       map['image_bytes'] = Variable<Uint8List>(imageBytes);
     }
@@ -732,9 +772,9 @@ class MemoItem extends DataClass implements Insertable<MemoItem> {
       coserId: Value(coserId),
       label:
           label == null && nullToAbsent ? const Value.absent() : Value(label),
-      isFavorite: isFavorite == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isFavorite),
+      isFavorite: Value(isFavorite),
+      isSent: Value(isSent),
+      isReturned: Value(isReturned),
       imageBytes: imageBytes == null && nullToAbsent
           ? const Value.absent()
           : Value(imageBytes),
@@ -756,7 +796,9 @@ class MemoItem extends DataClass implements Insertable<MemoItem> {
       notepadId: serializer.fromJson<int>(json['notepadId']),
       coserId: serializer.fromJson<int>(json['coserId']),
       label: serializer.fromJson<String?>(json['label']),
-      isFavorite: serializer.fromJson<bool?>(json['isFavorite']),
+      isFavorite: serializer.fromJson<bool>(json['isFavorite']),
+      isSent: serializer.fromJson<bool>(json['isSent']),
+      isReturned: serializer.fromJson<bool>(json['isReturned']),
       imageBytes: serializer.fromJson<Uint8List?>(json['imageBytes']),
       series: serializer.fromJson<String?>(json['series']),
       character: serializer.fromJson<String?>(json['character']),
@@ -771,7 +813,9 @@ class MemoItem extends DataClass implements Insertable<MemoItem> {
       'notepadId': serializer.toJson<int>(notepadId),
       'coserId': serializer.toJson<int>(coserId),
       'label': serializer.toJson<String?>(label),
-      'isFavorite': serializer.toJson<bool?>(isFavorite),
+      'isFavorite': serializer.toJson<bool>(isFavorite),
+      'isSent': serializer.toJson<bool>(isSent),
+      'isReturned': serializer.toJson<bool>(isReturned),
       'imageBytes': serializer.toJson<Uint8List?>(imageBytes),
       'series': serializer.toJson<String?>(series),
       'character': serializer.toJson<String?>(character),
@@ -784,7 +828,9 @@ class MemoItem extends DataClass implements Insertable<MemoItem> {
           int? notepadId,
           int? coserId,
           Value<String?> label = const Value.absent(),
-          Value<bool?> isFavorite = const Value.absent(),
+          bool? isFavorite,
+          bool? isSent,
+          bool? isReturned,
           Value<Uint8List?> imageBytes = const Value.absent(),
           Value<String?> series = const Value.absent(),
           Value<String?> character = const Value.absent(),
@@ -794,7 +840,9 @@ class MemoItem extends DataClass implements Insertable<MemoItem> {
         notepadId: notepadId ?? this.notepadId,
         coserId: coserId ?? this.coserId,
         label: label.present ? label.value : this.label,
-        isFavorite: isFavorite.present ? isFavorite.value : this.isFavorite,
+        isFavorite: isFavorite ?? this.isFavorite,
+        isSent: isSent ?? this.isSent,
+        isReturned: isReturned ?? this.isReturned,
         imageBytes: imageBytes.present ? imageBytes.value : this.imageBytes,
         series: series.present ? series.value : this.series,
         character: character.present ? character.value : this.character,
@@ -808,6 +856,9 @@ class MemoItem extends DataClass implements Insertable<MemoItem> {
       label: data.label.present ? data.label.value : this.label,
       isFavorite:
           data.isFavorite.present ? data.isFavorite.value : this.isFavorite,
+      isSent: data.isSent.present ? data.isSent.value : this.isSent,
+      isReturned:
+          data.isReturned.present ? data.isReturned.value : this.isReturned,
       imageBytes:
           data.imageBytes.present ? data.imageBytes.value : this.imageBytes,
       series: data.series.present ? data.series.value : this.series,
@@ -824,6 +875,8 @@ class MemoItem extends DataClass implements Insertable<MemoItem> {
           ..write('coserId: $coserId, ')
           ..write('label: $label, ')
           ..write('isFavorite: $isFavorite, ')
+          ..write('isSent: $isSent, ')
+          ..write('isReturned: $isReturned, ')
           ..write('imageBytes: $imageBytes, ')
           ..write('series: $series, ')
           ..write('character: $character, ')
@@ -833,8 +886,18 @@ class MemoItem extends DataClass implements Insertable<MemoItem> {
   }
 
   @override
-  int get hashCode => Object.hash(id, notepadId, coserId, label, isFavorite,
-      $driftBlobEquality.hash(imageBytes), series, character, survey);
+  int get hashCode => Object.hash(
+      id,
+      notepadId,
+      coserId,
+      label,
+      isFavorite,
+      isSent,
+      isReturned,
+      $driftBlobEquality.hash(imageBytes),
+      series,
+      character,
+      survey);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -844,6 +907,8 @@ class MemoItem extends DataClass implements Insertable<MemoItem> {
           other.coserId == this.coserId &&
           other.label == this.label &&
           other.isFavorite == this.isFavorite &&
+          other.isSent == this.isSent &&
+          other.isReturned == this.isReturned &&
           $driftBlobEquality.equals(other.imageBytes, this.imageBytes) &&
           other.series == this.series &&
           other.character == this.character &&
@@ -855,7 +920,9 @@ class MemoItemsCompanion extends UpdateCompanion<MemoItem> {
   final Value<int> notepadId;
   final Value<int> coserId;
   final Value<String?> label;
-  final Value<bool?> isFavorite;
+  final Value<bool> isFavorite;
+  final Value<bool> isSent;
+  final Value<bool> isReturned;
   final Value<Uint8List?> imageBytes;
   final Value<String?> series;
   final Value<String?> character;
@@ -866,6 +933,8 @@ class MemoItemsCompanion extends UpdateCompanion<MemoItem> {
     this.coserId = const Value.absent(),
     this.label = const Value.absent(),
     this.isFavorite = const Value.absent(),
+    this.isSent = const Value.absent(),
+    this.isReturned = const Value.absent(),
     this.imageBytes = const Value.absent(),
     this.series = const Value.absent(),
     this.character = const Value.absent(),
@@ -877,6 +946,8 @@ class MemoItemsCompanion extends UpdateCompanion<MemoItem> {
     required int coserId,
     this.label = const Value.absent(),
     this.isFavorite = const Value.absent(),
+    this.isSent = const Value.absent(),
+    this.isReturned = const Value.absent(),
     this.imageBytes = const Value.absent(),
     this.series = const Value.absent(),
     this.character = const Value.absent(),
@@ -889,6 +960,8 @@ class MemoItemsCompanion extends UpdateCompanion<MemoItem> {
     Expression<int>? coserId,
     Expression<String>? label,
     Expression<bool>? isFavorite,
+    Expression<bool>? isSent,
+    Expression<bool>? isReturned,
     Expression<Uint8List>? imageBytes,
     Expression<String>? series,
     Expression<String>? character,
@@ -900,6 +973,8 @@ class MemoItemsCompanion extends UpdateCompanion<MemoItem> {
       if (coserId != null) 'coser_id': coserId,
       if (label != null) 'label': label,
       if (isFavorite != null) 'is_favorite': isFavorite,
+      if (isSent != null) 'is_sent': isSent,
+      if (isReturned != null) 'is_returned': isReturned,
       if (imageBytes != null) 'image_bytes': imageBytes,
       if (series != null) 'series': series,
       if (character != null) 'character': character,
@@ -912,7 +987,9 @@ class MemoItemsCompanion extends UpdateCompanion<MemoItem> {
       Value<int>? notepadId,
       Value<int>? coserId,
       Value<String?>? label,
-      Value<bool?>? isFavorite,
+      Value<bool>? isFavorite,
+      Value<bool>? isSent,
+      Value<bool>? isReturned,
       Value<Uint8List?>? imageBytes,
       Value<String?>? series,
       Value<String?>? character,
@@ -923,6 +1000,8 @@ class MemoItemsCompanion extends UpdateCompanion<MemoItem> {
       coserId: coserId ?? this.coserId,
       label: label ?? this.label,
       isFavorite: isFavorite ?? this.isFavorite,
+      isSent: isSent ?? this.isSent,
+      isReturned: isReturned ?? this.isReturned,
       imageBytes: imageBytes ?? this.imageBytes,
       series: series ?? this.series,
       character: character ?? this.character,
@@ -948,6 +1027,12 @@ class MemoItemsCompanion extends UpdateCompanion<MemoItem> {
     if (isFavorite.present) {
       map['is_favorite'] = Variable<bool>(isFavorite.value);
     }
+    if (isSent.present) {
+      map['is_sent'] = Variable<bool>(isSent.value);
+    }
+    if (isReturned.present) {
+      map['is_returned'] = Variable<bool>(isReturned.value);
+    }
     if (imageBytes.present) {
       map['image_bytes'] = Variable<Uint8List>(imageBytes.value);
     }
@@ -971,6 +1056,8 @@ class MemoItemsCompanion extends UpdateCompanion<MemoItem> {
           ..write('coserId: $coserId, ')
           ..write('label: $label, ')
           ..write('isFavorite: $isFavorite, ')
+          ..write('isSent: $isSent, ')
+          ..write('isReturned: $isReturned, ')
           ..write('imageBytes: $imageBytes, ')
           ..write('series: $series, ')
           ..write('character: $character, ')
@@ -1467,7 +1554,9 @@ typedef $$MemoItemsTableCreateCompanionBuilder = MemoItemsCompanion Function({
   required int notepadId,
   required int coserId,
   Value<String?> label,
-  Value<bool?> isFavorite,
+  Value<bool> isFavorite,
+  Value<bool> isSent,
+  Value<bool> isReturned,
   Value<Uint8List?> imageBytes,
   Value<String?> series,
   Value<String?> character,
@@ -1478,7 +1567,9 @@ typedef $$MemoItemsTableUpdateCompanionBuilder = MemoItemsCompanion Function({
   Value<int> notepadId,
   Value<int> coserId,
   Value<String?> label,
-  Value<bool?> isFavorite,
+  Value<bool> isFavorite,
+  Value<bool> isSent,
+  Value<bool> isReturned,
   Value<Uint8List?> imageBytes,
   Value<String?> series,
   Value<String?> character,
@@ -1508,6 +1599,12 @@ class $$MemoItemsTableFilterComposer
 
   ColumnFilters<bool> get isFavorite => $composableBuilder(
       column: $table.isFavorite, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isSent => $composableBuilder(
+      column: $table.isSent, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isReturned => $composableBuilder(
+      column: $table.isReturned, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<Uint8List> get imageBytes => $composableBuilder(
       column: $table.imageBytes, builder: (column) => ColumnFilters(column));
@@ -1546,6 +1643,12 @@ class $$MemoItemsTableOrderingComposer
   ColumnOrderings<bool> get isFavorite => $composableBuilder(
       column: $table.isFavorite, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<bool> get isSent => $composableBuilder(
+      column: $table.isSent, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isReturned => $composableBuilder(
+      column: $table.isReturned, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<Uint8List> get imageBytes => $composableBuilder(
       column: $table.imageBytes, builder: (column) => ColumnOrderings(column));
 
@@ -1582,6 +1685,12 @@ class $$MemoItemsTableAnnotationComposer
 
   GeneratedColumn<bool> get isFavorite => $composableBuilder(
       column: $table.isFavorite, builder: (column) => column);
+
+  GeneratedColumn<bool> get isSent =>
+      $composableBuilder(column: $table.isSent, builder: (column) => column);
+
+  GeneratedColumn<bool> get isReturned => $composableBuilder(
+      column: $table.isReturned, builder: (column) => column);
 
   GeneratedColumn<Uint8List> get imageBytes => $composableBuilder(
       column: $table.imageBytes, builder: (column) => column);
@@ -1623,7 +1732,9 @@ class $$MemoItemsTableTableManager extends RootTableManager<
             Value<int> notepadId = const Value.absent(),
             Value<int> coserId = const Value.absent(),
             Value<String?> label = const Value.absent(),
-            Value<bool?> isFavorite = const Value.absent(),
+            Value<bool> isFavorite = const Value.absent(),
+            Value<bool> isSent = const Value.absent(),
+            Value<bool> isReturned = const Value.absent(),
             Value<Uint8List?> imageBytes = const Value.absent(),
             Value<String?> series = const Value.absent(),
             Value<String?> character = const Value.absent(),
@@ -1635,6 +1746,8 @@ class $$MemoItemsTableTableManager extends RootTableManager<
             coserId: coserId,
             label: label,
             isFavorite: isFavorite,
+            isSent: isSent,
+            isReturned: isReturned,
             imageBytes: imageBytes,
             series: series,
             character: character,
@@ -1645,7 +1758,9 @@ class $$MemoItemsTableTableManager extends RootTableManager<
             required int notepadId,
             required int coserId,
             Value<String?> label = const Value.absent(),
-            Value<bool?> isFavorite = const Value.absent(),
+            Value<bool> isFavorite = const Value.absent(),
+            Value<bool> isSent = const Value.absent(),
+            Value<bool> isReturned = const Value.absent(),
             Value<Uint8List?> imageBytes = const Value.absent(),
             Value<String?> series = const Value.absent(),
             Value<String?> character = const Value.absent(),
@@ -1657,6 +1772,8 @@ class $$MemoItemsTableTableManager extends RootTableManager<
             coserId: coserId,
             label: label,
             isFavorite: isFavorite,
+            isSent: isSent,
+            isReturned: isReturned,
             imageBytes: imageBytes,
             series: series,
             character: character,

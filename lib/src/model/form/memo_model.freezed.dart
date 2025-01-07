@@ -24,7 +24,9 @@ mixin _$MemoModel {
   CoserModel get coser => throw _privateConstructorUsedError;
   NotepadModel? get notepad => throw _privateConstructorUsedError;
   String? get label => throw _privateConstructorUsedError;
-  bool? get isFavorite => throw _privateConstructorUsedError;
+  bool get isFavorite => throw _privateConstructorUsedError;
+  bool get isSent => throw _privateConstructorUsedError;
+  bool get isReturned => throw _privateConstructorUsedError;
   String? get series => throw _privateConstructorUsedError;
   String? get character => throw _privateConstructorUsedError;
   @Uint8ListConverter()
@@ -47,7 +49,9 @@ abstract class $MemoModelCopyWith<$Res> {
       CoserModel coser,
       NotepadModel? notepad,
       String? label,
-      bool? isFavorite,
+      bool isFavorite,
+      bool isSent,
+      bool isReturned,
       String? series,
       String? character,
       @Uint8ListConverter() Uint8List? imageBytes,
@@ -75,7 +79,9 @@ class _$MemoModelCopyWithImpl<$Res, $Val extends MemoModel>
     Object? coser = null,
     Object? notepad = freezed,
     Object? label = freezed,
-    Object? isFavorite = freezed,
+    Object? isFavorite = null,
+    Object? isSent = null,
+    Object? isReturned = null,
     Object? series = freezed,
     Object? character = freezed,
     Object? imageBytes = freezed,
@@ -98,10 +104,18 @@ class _$MemoModelCopyWithImpl<$Res, $Val extends MemoModel>
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String?,
-      isFavorite: freezed == isFavorite
+      isFavorite: null == isFavorite
           ? _value.isFavorite
           : isFavorite // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
+      isSent: null == isSent
+          ? _value.isSent
+          : isSent // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isReturned: null == isReturned
+          ? _value.isReturned
+          : isReturned // ignore: cast_nullable_to_non_nullable
+              as bool,
       series: freezed == series
           ? _value.series
           : series // ignore: cast_nullable_to_non_nullable
@@ -167,7 +181,9 @@ abstract class _$$MemoModelImplCopyWith<$Res>
       CoserModel coser,
       NotepadModel? notepad,
       String? label,
-      bool? isFavorite,
+      bool isFavorite,
+      bool isSent,
+      bool isReturned,
       String? series,
       String? character,
       @Uint8ListConverter() Uint8List? imageBytes,
@@ -196,7 +212,9 @@ class __$$MemoModelImplCopyWithImpl<$Res>
     Object? coser = null,
     Object? notepad = freezed,
     Object? label = freezed,
-    Object? isFavorite = freezed,
+    Object? isFavorite = null,
+    Object? isSent = null,
+    Object? isReturned = null,
     Object? series = freezed,
     Object? character = freezed,
     Object? imageBytes = freezed,
@@ -219,10 +237,18 @@ class __$$MemoModelImplCopyWithImpl<$Res>
           ? _value.label
           : label // ignore: cast_nullable_to_non_nullable
               as String?,
-      isFavorite: freezed == isFavorite
+      isFavorite: null == isFavorite
           ? _value.isFavorite
           : isFavorite // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
+      isSent: null == isSent
+          ? _value.isSent
+          : isSent // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isReturned: null == isReturned
+          ? _value.isReturned
+          : isReturned // ignore: cast_nullable_to_non_nullable
+              as bool,
       series: freezed == series
           ? _value.series
           : series // ignore: cast_nullable_to_non_nullable
@@ -251,7 +277,9 @@ class _$MemoModelImpl implements _MemoModel {
       required this.coser,
       this.notepad,
       this.label,
-      this.isFavorite,
+      this.isFavorite = false,
+      this.isSent = false,
+      this.isReturned = false,
       this.series,
       this.character,
       @Uint8ListConverter() this.imageBytes,
@@ -269,7 +297,14 @@ class _$MemoModelImpl implements _MemoModel {
   @override
   final String? label;
   @override
-  final bool? isFavorite;
+  @JsonKey()
+  final bool isFavorite;
+  @override
+  @JsonKey()
+  final bool isSent;
+  @override
+  @JsonKey()
+  final bool isReturned;
   @override
   final String? series;
   @override
@@ -282,7 +317,7 @@ class _$MemoModelImpl implements _MemoModel {
 
   @override
   String toString() {
-    return 'MemoModel(id: $id, coser: $coser, notepad: $notepad, label: $label, isFavorite: $isFavorite, series: $series, character: $character, imageBytes: $imageBytes, survey: $survey)';
+    return 'MemoModel(id: $id, coser: $coser, notepad: $notepad, label: $label, isFavorite: $isFavorite, isSent: $isSent, isReturned: $isReturned, series: $series, character: $character, imageBytes: $imageBytes, survey: $survey)';
   }
 
   @override
@@ -296,6 +331,9 @@ class _$MemoModelImpl implements _MemoModel {
             (identical(other.label, label) || other.label == label) &&
             (identical(other.isFavorite, isFavorite) ||
                 other.isFavorite == isFavorite) &&
+            (identical(other.isSent, isSent) || other.isSent == isSent) &&
+            (identical(other.isReturned, isReturned) ||
+                other.isReturned == isReturned) &&
             (identical(other.series, series) || other.series == series) &&
             (identical(other.character, character) ||
                 other.character == character) &&
@@ -313,6 +351,8 @@ class _$MemoModelImpl implements _MemoModel {
       notepad,
       label,
       isFavorite,
+      isSent,
+      isReturned,
       series,
       character,
       const DeepCollectionEquality().hash(imageBytes),
@@ -338,7 +378,9 @@ abstract class _MemoModel implements MemoModel {
       required final CoserModel coser,
       final NotepadModel? notepad,
       final String? label,
-      final bool? isFavorite,
+      final bool isFavorite,
+      final bool isSent,
+      final bool isReturned,
       final String? series,
       final String? character,
       @Uint8ListConverter() final Uint8List? imageBytes,
@@ -356,7 +398,11 @@ abstract class _MemoModel implements MemoModel {
   @override
   String? get label;
   @override
-  bool? get isFavorite;
+  bool get isFavorite;
+  @override
+  bool get isSent;
+  @override
+  bool get isReturned;
   @override
   String? get series;
   @override

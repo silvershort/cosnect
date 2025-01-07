@@ -7,6 +7,7 @@ import 'package:cosnect/src/model/social_icon_type.dart';
 import 'package:cosnect/src/provider/notepad_provider.dart';
 import 'package:cosnect/src/router/app_router.gr.dart';
 import 'package:cosnect/src/router/route_path.dart';
+import 'package:cosnect/src/ui/widget/check_box/sent_check_box.dart';
 import 'package:cosnect/src/ui/widget/dialog/default_dialog.dart';
 import 'package:cosnect/src/ui/widget/icon/social_icon.dart';
 import 'package:cosnect/src/ui/widget/text/row_title_and_content_text.dart';
@@ -35,7 +36,8 @@ class MemoListTile extends HookConsumerWidget {
         showConfirmDialog(
           context,
           title: context.localization.delete,
-          content: context.localization.confirm_msg(context.localization.delete),
+          content:
+              context.localization.confirm_msg(context.localization.delete),
           onConfirm: () {
             ref.read(memoListProvider.notifier).deleteMemo(memoModel.id);
           },
@@ -46,6 +48,13 @@ class MemoListTile extends HookConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           children: [
+            SentCheckBox(
+              initialValue: memoModel.isSent,
+              memoId: memoModel.id,
+              onChanged: (isSent) {
+
+              },
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
